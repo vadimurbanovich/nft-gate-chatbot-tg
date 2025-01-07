@@ -1,15 +1,11 @@
 const { Bot, GrammyError, HttpError } = require("grammy");
-const { NFTChecker } = require("./lib/tonChecker"); 
+const { NFTChecker } = require("./lib/tonChecker");
 require("dotenv").config();
 
 const bot = new Bot(process.env.TELEGRAM_BOT_TOKEN);
 const PRIVATE_CHAT_ID = process.env.PRIVATE_CHAT_ID;
 
-const nftChecker = new NFTChecker(
-  process.env.TON_API_ENDPOINT,
-  process.env.TON_API_KEY,
-  process.env.COLLECTION_ADDRESS
-);
+const nftChecker = new NFTChecker(process.env.COLLECTION_ADDRESS);
 
 bot.command("start", (ctx) => {
   ctx.reply(
@@ -68,12 +64,5 @@ bot.catch((err) => {
     err.error
   );
 });
-
-const nftCollection = new tonweb.nft.NftCollection(
-  tonweb.utils.address(COLLECTION_ADDRESS)
-);
-
-const data = await nftCollection.getData();
-console.log("Коллекция через tonweb:", data);
 
 bot.start();
